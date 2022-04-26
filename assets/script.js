@@ -20,15 +20,9 @@ function parkSearch() {
     console.log(parkCode);
     var searchedParkCode = website + parkCode + apiKey;
     fetch(searchedParkCode)
-        .then(function(response) {
-            return response.json();
-        }) 
-        .then(function(data) {
-            console.log(data);
-        })
+    .then(response => response.json())
+    .then(data => console.log(data))
 };
-
-// $('#search-button').on("click", formSubmitHandler);
 
 $('#actual-search').on("click", parkSearch);
 
