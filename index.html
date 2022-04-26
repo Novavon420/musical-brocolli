@@ -30,9 +30,26 @@
         <h2>Parks</h2>
 
         <!-- Open Search Modal Button-->
+        
         <div>
-            <button id="search-button">Search for a park!</button>
+            <button data-target="modal-example" onClick="toggleModal(event)" id="search-button">Search for a park!</button>
         </div>
+
+        <!-- Modal -->
+        <dialog id="modal-example">
+        <article>
+        <a href="#close"
+            aria-label="Close"
+            class="close"
+            data-target="modal-example"
+            onClick="toggleModal(event)">
+        </a>
+        <form class="" id="user-form">
+            <label class="" for="Park">Enter the Park Code</label>
+            <input name="parkCode" id="park-code" type="text" autofocus="true" class="" />
+            <button type="submit" class="btn" id="actual-search">Search for a Park</button>
+        </article>
+        </dialog>
 
         <!-- Display parks here-->
         <div id="parks-content">
