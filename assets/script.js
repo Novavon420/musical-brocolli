@@ -15,13 +15,20 @@ var website = "https://developer.nps.gov/api/v1/parks?parkCode="
 //     }
 // }
 
-function parkSearch() {
-    var parkCode = document.getElementById("park-code").value;
-    console.log(parkCode);
-    var searchedParkCode = website + parkCode + apiKey;
-    fetch(searchedParkCode)
-    .then(response => response.json())
-    .then(data => console.log(data))
+var parkSearch = function () {
+  var parkCode = document.getElementById("park-code").value;
+  console.log(parkCode);
+  var searchedParkCode = website + parkCode + apiKey;
+  fetch(searchedParkCode, {
+    method: "GET",
+    headers: { accept: "application/json" },
+  })
+    .then(function (response) {
+      return response.json();
+    })
+    .then(function (data) {
+      console.log(data);
+    });
 };
 
 $('#actual-search').on("click", parkSearch);
