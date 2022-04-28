@@ -1,5 +1,6 @@
 var apiKey = "&api_key=bvwxSwdXvedrbinKUD2prCFEEp7cfHVv8HGToRPi"
-var website = "https://developer.nps.gov/api/v1/parks?parkCode="
+var website = "https://developer.nps.gov/api/v1/parks?stateCode="
+var limit = "&limit=10"
 
 
 // var formSubmitHandler = function(event) {
@@ -16,10 +17,10 @@ var website = "https://developer.nps.gov/api/v1/parks?parkCode="
 // }
 
 var parkSearch = function () {
-  var parkCode = document.getElementById("park-code").value;
-  console.log(parkCode);
-  var searchedParkCode = website + parkCode + apiKey;
-  fetch(searchedParkCode, {
+  var stateCode = document.getElementById("state-code").value;
+  console.log(stateCode);
+  var searchedStateCode = website + stateCode + limit + apiKey;
+  fetch(searchedStateCode, {
     method: "GET",
     headers: { accept: "application/json" },
   })
