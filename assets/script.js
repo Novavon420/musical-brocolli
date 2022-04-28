@@ -1,5 +1,6 @@
 var apiKey = "&api_key=bvwxSwdXvedrbinKUD2prCFEEp7cfHVv8HGToRPi"
-var website = "https://developer.nps.gov/api/v1/parks?parkCode="
+var website = "https://developer.nps.gov/api/v1/parks?stateCode="
+var limit = "&limit=10"
 
 
 // var formSubmitHandler = function(event) {
@@ -16,20 +17,50 @@ var website = "https://developer.nps.gov/api/v1/parks?parkCode="
 // }
 
 var parkSearch = function () {
-  var parkCode = document.getElementById("park-code").value;
-  console.log(parkCode);
-  var searchedParkCode = website + parkCode + apiKey;
-  fetch(searchedParkCode, {
+  var stateCode = document.getElementById("state-code").value;
+  console.log(stateCode);
+  var searchedStateCode = website + stateCode + limit + apiKey;
+  fetch(searchedStateCode, {
     method: "GET",
     headers: { accept: "application/json" },
   })
     .then(function (response) {
+      console.log(response);
       return response.json();
     })
     .then(function (data) {
       console.log(data);
+      createParkCards(data);
     });
 };
+
+var createParkCards = function(parks){
+  console.log(parks);
+  var cardContainer = document.getElementById("parks-card-container");
+
+  for(var i = 0; i < parks.data.length; i++){
+    var parkCard = document.createElement("article");
+    parkCard.setAttribute("data-cardId", i);
+    
+    var parkCardHead = document.createElement("header");
+    parkCardHead.textContent = parks.data[i].fullName;
+    parkCard.appendChild(parkCardHead);
+
+    var parkCardBody = document.createElement("body");
+    
+    var parkDescription = document.createElement("p");
+    parkDescription.textContent = parks.data[i].description;
+
+    var parkWeatherInfo = document.createElement("p");
+    parkWeatherInfo.textContent= parks.data[i].weatherInfo ;
+
+    parkCardBody.appendChild(parkDescription);
+    parkCardBody.appendChild(parkWeatherInfo);
+    parkCard.appendChild(parkCardBody);
+
+    cardContainer.appendChild(parkCard);
+  }
+}
 
 $('#actual-search').on("click", parkSearch);
 
