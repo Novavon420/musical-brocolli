@@ -7,12 +7,17 @@
   --primary: #1e88e5;
 }
 
-header {
+#header {
     font-size: 25px;
+    background-image: url("https://source.unsplash.com/a562ZEFKW8I/2000x1000");
+    background-position: 80% 65%;
+    color: whitesmoke;
+    text-shadow: 0 0 3px black;
 }
 
 h1,
-h2 {
+h2,
+h3 {
   --font-family: "Raleway", sans-serif;
   --font-weight: 800;
 }
@@ -22,9 +27,15 @@ h1 {
   --typography-spacing-vertical: 2.5rem;
 }
 
-h2 {
+h2,
+h3 {
   --font-size: 2rem;
   --typography-spacing-vertical: 2rem;
+}
+
+h3 {
+    text-align: center;
+    margin: auto;
 }
 
 button,
@@ -35,17 +46,45 @@ a[role=button] {
   --font-weight: 600;
 }
 
+#parks-card-container body {
+    font-family: "Raleway", sans-serif;
+    font-weight: 400;
+    color: whitesmoke;
+    text-shadow: 0 0 3px black;
+}
+
+
+#parks-card-container article {
+    width: 470px;
+    margin: auto;
+    padding: 0%;
+    margin: 0 10px;
+    text-align: center;
+}
+
+#parks-card-container header {
+    font-family: "Raleway", sans-serif;
+    font-weight: 800;
+    background-color: green;
+    color: white;
+    margin: auto;
+    height: 200px;
+    text-align: center;
+
+}
+
 [data-theme=light],
 :root:not([data-theme=dark]) {
   color-scheme: light;
   --background-color: #fff;
-  --color: #39566a;
-  --h1-color: #042c49;
-  --h2-color: #0f4267;
+  --color: white;
+  --h1-color: whitesmoke;
+  --h2-color: whitesmoke;
   --h3-color: #215a83;
   --h4-color: #3a7098;
   --h5-color: #5986a6;
   --h6-color: #7f9aad;
+  --state-code-color: black;
   --muted-color: #668499;
   --muted-border-color: #ebf0f4;
   --primary: #0eaaaa;
@@ -72,7 +111,7 @@ a[role=button] {
     0 0.1875rem 0.375rem rgba(23, 41, 54, 0.1);
   --form-element-background-color: #d8e2e9;
   --form-element-border-color: #d8e2e9;
-  --form-element-color: var(--color);
+  --form-element-color: black;
   --form-element-placeholder-color: var(--muted-color);
   --form-element-active-background-color: var(--form-element-background-color);
   --form-element-active-border-color: var(--primary);
@@ -129,13 +168,14 @@ a[role=button] {
     :root:not([data-theme=light]) {
       color-scheme: dark;
       --background-color: #0e1a22;
-      --color: #b5c7d4;
+      --color: white;
       --h1-color: #e3f2fc;
       --h2-color: #c3dff4;
       --h3-color: #a9c9df;
       --h4-color: #89b3d1;
       --h5-color: #759cb8;
       --h6-color: #668499;
+      --state-code-color: black;
       --muted-color: #668499;
       --muted-border-color: #1b2e3c;
       --primary: #0eaaaa;
@@ -162,7 +202,7 @@ a[role=button] {
         0 0.1875rem 0.375rem #000;
       --form-element-background-color: #1b2e3c;
       --form-element-border-color: #1b2e3c;
-      --form-element-color: var(--color);
+      --form-element-color: black;
       --form-element-placeholder-color: var(--muted-color);
       --form-element-active-background-color: var(--form-element-background-color);
       --form-element-active-border-color: var(--primary);
@@ -252,7 +292,7 @@ a[role=button] {
       0 0.1875rem 0.375rem #000;
     --form-element-background-color: #1b2e3c;
     --form-element-border-color: #1b2e3c;
-    --form-element-color: var(--color);
+    --form-element-color: black;
     --form-element-placeholder-color: var(--muted-color);
     --form-element-active-background-color: var(--form-element-background-color);
     --form-element-active-border-color: var(--primary);
@@ -306,3 +346,7 @@ a[role=button] {
     --icon-invalid: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='rgba(183, 28, 28, 0.999)' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='12' cy='12' r='10'%3E%3C/circle%3E%3Cline x1='12' y1='8' x2='12' y2='12'%3E%3C/line%3E%3Cline x1='12' y1='16' x2='12.01' y2='16'%3E%3C/line%3E%3C/svg%3E");
   }
   
+  #parks-card-container {
+    display: flex;
+    flex-wrap: wrap;
+}
