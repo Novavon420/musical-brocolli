@@ -30,28 +30,29 @@ var parkSearch = function () {
     })
     .then(function (data) {
       console.log(data);
-
+      createParkCards(data);
     });
 };
 
 var createParkCards = function(parks){
+  console.log(parks);
   var cardContainer = document.getElementById("parks-card-container");
 
-  for(var i = 0; i < parks.length; i++){
+  for(var i = 0; i < parks.data.length; i++){
     var parkCard = document.createElement("article");
     parkCard.setAttribute("data-cardId", i);
     
     var parkCardHead = document.createElement("header");
-    parkCardHead.textContent(data[i].fullName);
+    parkCardHead.textContent = parks.data[i].fullName;
     parkCard.appendChild(parkCardHead);
 
     var parkCardBody = document.createElement("body");
     
-    var parkDescription = document.createElement("span");
-    parkDescription.textContent(data[i].description);
+    var parkDescription = document.createElement("p");
+    parkDescription.textContent = parks.data[i].description;
 
-    var parkWeatherInfo = document.createElement("span");
-    parkWeatherInfo.textContent(data[i].weatherInfo);
+    var parkWeatherInfo = document.createElement("p");
+    parkWeatherInfo.textContent= parks.data[i].weatherInfo ;
 
     parkCardBody.appendChild(parkDescription);
     parkCardBody.appendChild(parkWeatherInfo);
