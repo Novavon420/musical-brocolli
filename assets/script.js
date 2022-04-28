@@ -24,12 +24,21 @@ var parkSearch = function () {
     headers: { accept: "application/json" },
   })
     .then(function (response) {
+      console.log(response);
       return response.json();
     })
     .then(function (data) {
       console.log(data);
     });
 };
+
+var createParkCards = function(parks){
+  for(var i = 0; i < parks.length; i++){
+    var parkCard = document.createElement("article");
+    parkCard.setAttribute("data-cardId", i);
+    
+  }
+}
 
 $('#actual-search').on("click", parkSearch);
 
