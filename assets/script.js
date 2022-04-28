@@ -30,14 +30,34 @@ var parkSearch = function () {
     })
     .then(function (data) {
       console.log(data);
+
     });
 };
 
 var createParkCards = function(parks){
+  var cardContainer = document.getElementById("parks-card-container");
+
   for(var i = 0; i < parks.length; i++){
     var parkCard = document.createElement("article");
     parkCard.setAttribute("data-cardId", i);
     
+    var parkCardHead = document.createElement("header");
+    parkCardHead.textContent(data[i].fullName);
+    parkCard.appendChild(parkCardHead);
+
+    var parkCardBody = document.createElement("body");
+    
+    var parkDescription = document.createElement("span");
+    parkDescription.textContent(data[i].description);
+
+    var parkWeatherInfo = document.createElement("span");
+    parkWeatherInfo.textContent(data[i].weatherInfo);
+
+    parkCardBody.appendChild(parkDescription);
+    parkCardBody.appendChild(parkWeatherInfo);
+    parkCard.appendChild(parkCardBody);
+
+    cardContainer.appendChild(parkCard);
   }
 }
 
