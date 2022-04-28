@@ -1,7 +1,8 @@
 var apiKey = "&api_key=bvwxSwdXvedrbinKUD2prCFEEp7cfHVv8HGToRPi"
 var website = "https://developer.nps.gov/api/v1/parks?stateCode="
 var limit = "&limit=10"
-
+var latitude = "";
+var longitude = "";
 
 // var formSubmitHandler = function(event) {
 //     event.preventDefault();
@@ -18,24 +19,39 @@ var limit = "&limit=10"
 
 var parkSearch = function () {
   var stateCode = document.getElementById("state-code").value;
-  console.log(stateCode);
+
   var searchedStateCode = website + stateCode + limit + apiKey;
   fetch(searchedStateCode, {
     method: "GET",
     headers: { accept: "application/json" },
   })
     .then(function (response) {
-      console.log(response);
+      
       return response.json();
     })
     .then(function (data) {
-      console.log(data);
+
       createParkCards(data);
     });
 };
 
+//Access Map API
+var mapQuery = function(lat, long){
+  var queryParamater = calculateMapXY(lat, long);
+  var mapData;
+
+  var mapUrl = "https://tnmaccess.nationalmap.gov/api/v1/products?prodExtents=30%20x%2060%20minute&bbox=" + queryParamater[0] + "," + queryParamater[1] + "," + queryParamater[2] + "," + queryParamater[3];
+  fetch(mapUrl)
+  .then(function(response){
+    
+    return response.json();
+  })
+  .then(function(data){
+     createMapDownloadEL(data);
+  });
+}
+
 var createParkCards = function(parks){
-  console.log(parks);
   var cardContainer = document.getElementById("parks-card-container");
 
   for(var i = 0; i < parks.data.length; i++){
@@ -62,8 +78,26 @@ var createParkCards = function(parks){
     parkCard.appendChild(parkCardBody);
 
     cardContainer.appendChild(parkCard);
+
+    //capture lat/long data to pass to MapQuery
+    latitude = parks.data[i].latitude;
+    longitude = parks.data[i].longitude;
+
+    //Look for maps
+    var mapObj = mapQuery(latitude, longitude);
+    break;
   }
 }
+
+/*
+createMapDownloadEL(map){
+  var mapData = map;
+
+  for(var i; i < document.getElementById("parks-card-container").getElementsByTagName("*").length; i++){
+    
+  }
+} 
+*/
 
 $('#actual-search').on("click", parkSearch);
 
@@ -163,16 +197,8 @@ const isScrollbarVisible = () => {
   return document.body.scrollHeight > screen.height;
 }
 
-
-
-//y value
-var latitude = 38.72261844;
-
-//x value
-var longitude = -109.5863666;
-
 //calculate lat long x1, x2, y1, y2
-function calculateMapXY(lat, long){
+var calculateMapXY = function(lat, long){
     //latitude y
     var earth = 6378.137,  //radius of the earth in kilometer
         pi = Math.PI,
@@ -182,22 +208,19 @@ function calculateMapXY(lat, long){
     var y1 = lat + (5000 * m);
     var y2 = lat - (5000 * m);
 
-    console.log(y1);
-    console.log(y2);
-
     //longitude x
     var earth = 6378.137,  //radius of the earth in kilometer
         pi = Math.PI,
         cos = Math.cos,
         m = (1 / ((2 * pi / 360) * earth)) / 1000;  //1 meter in degree
 
-    var x1 = long - (5000 * m) / cos(lat * (pi / 180));
-    var x2 = long + (5000 * m) / cos(lat * (pi / 180));
+    var x1 = long - (100 * m) / cos(lat * (pi / 180));
+    var x2 = long + (100 * m) / cos(lat * (pi / 180));
 
-    console.log(y1 + ", " + x1);
-    console.log(y2 + ", " + x2);
+    x1 = parseFloat(x1);
+    x2 = parseFloat(x2);
+    y1 = parseFloat(y1);
+    y2 = parseFloat(y2);
 
-    return [x1, x2, y1, y2];
+    return [x1, y1, x2, y2];
 }
-
-calculateMapXY(latitude, longitude);
