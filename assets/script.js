@@ -54,6 +54,9 @@ var createParkCards = function(parks){
     var parkWeatherInfo = document.createElement("p");
     parkWeatherInfo.textContent= parks.data[i].weatherInfo ;
 
+    parkCardBody.style.backgroundImage = "url('" + parks.data[i].images[0].url + "')";
+    parkCardBody.style.backgroundSize = "cover";
+
     parkCardBody.appendChild(parkDescription);
     parkCardBody.appendChild(parkWeatherInfo);
     parkCard.appendChild(parkCardBody);
