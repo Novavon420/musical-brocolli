@@ -47,7 +47,8 @@ var mapQuery = function(lat, long){
     return response.json();
   })
   .then(function(data){
-     createMapDownloadEL(data);
+    console.log(data);
+    createMapDownloadEL(data);
   });
 }
 
