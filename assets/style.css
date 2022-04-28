@@ -11,7 +11,7 @@
     font-size: 25px;
     background-image: url("https://source.unsplash.com/a562ZEFKW8I/2000x1000");
     background-position: 80% 65%;
-    color: whitesmoke;
+    color: grey;
     text-shadow: 0 0 3px black;
 }
 
@@ -73,13 +73,21 @@ a[role=button] {
 
 }
 
+body {
+    background-color: silver;
+}
+
+#footer {
+    background-color: silver;
+}
+
 [data-theme=light],
 :root:not([data-theme=dark]) {
   color-scheme: light;
   --background-color: #fff;
   --color: white;
-  --h1-color: whitesmoke;
-  --h2-color: whitesmoke;
+  --h1-color: lightgrey;
+  --h2-color: lightgrey;
   --h3-color: #215a83;
   --h4-color: #3a7098;
   --h5-color: #5986a6;
