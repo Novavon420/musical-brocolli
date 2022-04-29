@@ -3,6 +3,7 @@ var website = "https://developer.nps.gov/api/v1/parks?stateCode="
 var limit = "&limit=10"
 var latitude = "";
 var longitude = "";
+var mapData = {};
 
 // var formSubmitHandler = function(event) {
 //     event.preventDefault();
@@ -36,9 +37,8 @@ var parkSearch = function () {
 };
 
 //Access Map API
-var mapQuery = function(lat, long){
+var mapQuery = function(lat, long, index){
   var queryParamater = calculateMapXY(lat, long);
-  var mapData;
 
   var mapUrl = "https://tnmaccess.nationalmap.gov/api/v1/products?prodExtents=30%20x%2060%20minute&bbox=" + queryParamater[0] + "," + queryParamater[1] + "," + queryParamater[2] + "," + queryParamater[3];
   fetch(mapUrl)
@@ -47,7 +47,7 @@ var mapQuery = function(lat, long){
     return response.json();
   })
   .then(function(data){
-     createMapDownloadEL(data);
+    addMapDownload(data, index);
   });
 }
 
@@ -84,9 +84,29 @@ var createParkCards = function(parks){
     longitude = parks.data[i].longitude;
 
     //Look for maps
-    var mapObj = mapQuery(latitude, longitude);
-    break;
+    debugger;
+    mapQuery(latitude, longitude, i);
   }
+}
+
+var addMapDownload =  function(mapData, cardId){
+  var cardEl = document.querySelector('[data-cardId="' + cardId + '"]');
+
+  console.log(mapData);
+  //mapData.items[0].downloadURL;
+  var cardFooter = document.createElement("footer");
+  
+  var footerText = document.createElement("p");
+  footerText.textContent = "Here's a map download for this park!";
+
+  var footerA = document.createElement("a");
+  footerA.setAttribute("href", mapData.items[0].downloadURL);
+  footerA.textContent = mapData.items[0].moreInfo;
+  
+  cardFooter.appendChild(footerText);
+  cardFooter.appendChild(footerA);
+
+  cardEl.appendChild(cardFooter);
 }
 
 /*
