@@ -47,12 +47,8 @@ var mapQuery = function(lat, long, index){
     return response.json();
   })
   .then(function(data){
-<<<<<<< HEAD
     console.log(data);
     createMapDownloadEL(data);
-=======
-    addMapDownload(data, index);
->>>>>>> feature/maps-query
   });
 }
 
