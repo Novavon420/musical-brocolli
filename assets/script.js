@@ -45,10 +45,12 @@ var mapQuery = function(lat, long, index){
   .then(function(response){
     
     return response.json();
+    
   })
   .then(function(data){
-    console.log(data);
-    createMapDownloadEL(data);
+    
+    addMapDownload(data, index);
+
   });
 }
 
