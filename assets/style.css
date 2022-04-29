@@ -53,6 +53,14 @@ a[role=button] {
     text-shadow: 0 0 3px black;
 }
 
+#parks-card-container footer {
+  margin: auto;
+  padding: -10%;
+  margin: 10 10px;
+  color: black;
+  border: 0;
+}
+
 
 #parks-card-container article {
     width: 470px;
@@ -85,7 +93,7 @@ body {
 :root:not([data-theme=dark]) {
   color-scheme: light;
   --background-color: #fff;
-  --color: white;
+  --color: black
   --h1-color: lightgrey;
   --h2-color: lightgrey;
   --h3-color: #215a83;
@@ -354,7 +362,8 @@ body {
     --icon-invalid: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='rgba(183, 28, 28, 0.999)' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='12' cy='12' r='10'%3E%3C/circle%3E%3Cline x1='12' y1='8' x2='12' y2='12'%3E%3C/line%3E%3Cline x1='12' y1='16' x2='12.01' y2='16'%3E%3C/line%3E%3C/svg%3E");
   }
   
-  #parks-card-container {
+#parks-card-container {
     display: flex;
     flex-wrap: wrap;
 }
+
