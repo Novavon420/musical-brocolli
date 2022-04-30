@@ -42,7 +42,9 @@ if(localStorage.getItem("stateSearch")){
     });
 }
 
-var parkSearch = function () {
+//Reach out to NPS API to try to retrieve Parks data
+//Calls Create Cards function if successfull
+var parkSearch = function() {
   var stateCode = document.getElementById("state-code").value;
   localStorage.setItem("stateSearch", stateCode);
 
@@ -51,33 +53,36 @@ var parkSearch = function () {
     method: "GET",
     headers: { accept: "application/json" },
   })
-    .then(function (response) {
-      if (response.ok) {
-        response.json().then(function(data) {
-          console.log(data);
-          debugger;
-          if (data.total != "0") {
-            createParkCards(data);
-            toggleModalSearch();
-          } else {
-            formSubmitHandler();
-          }
-        });
-      } 
-    })
-    .catch(function(error) {
-      var modalError = document.createElement("p");
-        modalError.textContent = "Error: Can't connect to NPS.";
-        modalError.setAttribute("id", "errorP");
-        document.getElementById("modal-article").appendChild(modalError);
-    });
-    };
+  .then(function (response) {
+    if (response.ok) {
+      response.json().then(function(data) {
+        if (data.total != "0") {
+          createParkCards(data);
+          toggleModalSearch();
 
-const formSubmitHandler = modal => {
-  var modalError = document.createElement("p");
-  modalError.setAttribute("id", "errorP");
-  modalError.textContent = "Error: Not a valid two letter identifier.";
-  document.getElementById("modal-article").appendChild(modalError);
+        } else {
+          formSubmitHandlerErrorHandler();
+        }
+      });
+    } 
+  })
+  .catch(function(error) {
+    var modalError = document.createElement("p");
+      modalError.textContent = "Error: Can't connect to NPS";
+      modalError.setAttribute("id", "errorP");
+      document.getElementById("modal-article").appendChild(modalError);
+  });
+};
+
+const formSubmitHandlerErrorHandler = modal => {
+  
+  //check and see if error message is not being displayed already
+  if(!document.getElementById("errorP")){
+    var modalError = document.createElement("p");
+    modalError.setAttribute("id", "errorP");
+    modalError.textContent = "Error: Not a valid two letter state identifier or state not found";
+    document.getElementById("modal-article").appendChild(modalError);
+  }
 }
 
 //Access Map API
@@ -166,6 +171,7 @@ var addMapDownload =  function(mapData, cardId){
 
 
 $('#actual-search').on("click", parkSearch);
+$("#user-form").on("submit", parkSearch);
 
 /*
  * Modal
@@ -180,7 +186,6 @@ const openingClass = 'modal-is-opening';
 const closingClass = 'modal-is-closing';
 const animationDuration = 400; // ms
 let visibleModal = null;
-
 
 // Toggle modal
 const toggleModal = event => {
@@ -223,9 +228,12 @@ const closeModal = modal => {
     modal.removeAttribute('open');
   }, animationDuration);
 
+  //If error message exists, delete it on close
   var art = document.getElementById("modal-article");
   var errorP = document.getElementById("errorP");
-  art.removeChild(errorP);
+  if(errorP){
+    art.removeChild(errorP);
+  }
 }
 
 // Close with a click outside
