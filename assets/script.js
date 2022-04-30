@@ -87,7 +87,6 @@ const formSubmitHandler = modal => {
   var modalError = document.createElement("p");
   modalError.textContent = "Error: Not a valid two letter identifier.";
   document.getElementById("modal-error").appendChild(modalError);
-  openModal();
 }
 //Access Map API
 var mapQuery = function(lat, long, index){
