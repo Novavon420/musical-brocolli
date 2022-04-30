@@ -6,8 +6,7 @@ var longitude = "";
 var mapData = {};
 
 // Searching for the National Parks with NPS API
-var parkSearch = function (event) {
-  event.preventDefault();
+var parkSearch = function () {
   var stateCode = document.getElementById("state-code").value;
 
   var searchedStateCode = website + stateCode + limit + apiKey;
@@ -110,7 +109,6 @@ createMapDownloadEL(map){
 } 
 */
 
-$('#actual-search').on("submit", parkSearch);
 
 /*
  * Modal
@@ -163,6 +161,14 @@ const closeModal = modal => {
     modal.removeAttribute('open');
   }, animationDuration);
 }
+
+// close with search
+document.addEventListener('click', event => {
+  document.getElementById("actual-search").on('click', function(event) {
+    event.preventDefault();
+    parkSearch();
+  });
+});
 
 // Close with a click outside
 document.addEventListener('click', event => {
