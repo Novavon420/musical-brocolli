@@ -19,7 +19,6 @@ var mapData = {};
 // }
 
 if(localStorage.getItem("stateSearch")){
-  debugger;
   var stateSearch = localStorage.getItem("stateSearch");
   console.log(stateSearch);
 
@@ -67,13 +66,12 @@ var parkSearch = function () {
       if (response.ok) {
         response.json().then(function(data) {
           console.log(data);
-          if (data.total.start.length >= 1) {
+          debugger;
+          if (data.total != "0") {
             createParkCards(data);
+            closeModal();
           } else {
-            // Need to create a <p> element
-            var modalError = document.createElement("p");
-            modalError.textContent = "Error: Note a valid two letter identifier.";
-            document.getElementById("modal-error").appendChild(modalError);
+            formSubmitHandler();
           }
         });
       } 
@@ -85,6 +83,12 @@ var parkSearch = function () {
     });
     };
 
+const formSubmitHandler = modal => {
+  var modalError = document.createElement("p");
+  modalError.textContent = "Error: Not a valid two letter identifier.";
+  document.getElementById("modal-error").appendChild(modalError);
+  openModal();
+}
 //Access Map API
 var mapQuery = function(lat, long, index){
   var queryParamater = calculateMapXY(lat, long);
@@ -192,7 +196,7 @@ const toggleModal = event => {
   event.preventDefault();
   const modal = document.getElementById(event.target.getAttribute('data-target'));
   (typeof(modal) != 'undefined' && modal != null)
-    && isModalOpen(modal) ? closeModal(modal) : openModal(modal)
+    && isModalOpen(modal) ? formSubmitHandler(modal) : openModal(modal)
 }
 
 // Is modal open
