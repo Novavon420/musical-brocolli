@@ -68,8 +68,14 @@ a[role=button] {
     font-weight: 400;
     color: whitesmoke;
     text-shadow: 0 0 10px black;
+    height: 100%;
+    position: relative;
 }
 
+.bgLayer {
+  background-color: rgba(0, 72, 78, 0.5);
+  height: 100%;
+}
 
 #parks-card-container article {
     width: 470px;
@@ -78,6 +84,10 @@ a[role=button] {
     margin: 20px;
     text-align: center;
     border: #002d30 1px solid;
+    border-radius: 20px;
+    border-collapse: separate;
+    display: flex;
+    flex-direction: column;
 }
 
 #parks-card-container header {
@@ -88,11 +98,19 @@ a[role=button] {
     margin: auto;
     height: 200px;
     text-align: center;
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+    width: 100%;
+    height: 100px;
+    padding: 20px;
+    border: 0;
+    height: 75px;
 }
 
 #parks-card-container header h4{
   color: #acf9ff;
   text-shadow: #e6fdff 2px;
+  margin-bottom: 0;
 }
 
 #parks-card-container article body p{
@@ -104,6 +122,8 @@ a[role=button] {
 #parks-card-container footer{
   padding: 0;
   margin: 0;
+  border-bottom-left-radius: 20px;
+  border-bottom-right-radius: 20px;
 }
 
 #parks-card-container footer p{

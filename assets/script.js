@@ -107,18 +107,22 @@ var createParkCards = function(parks){
     parkCard.appendChild(parkCardHead);
 
     var parkCardBody = document.createElement("body");
+
+    var parkCardBodyB = document.createElement("div");
+    parkCardBodyB.setAttribute("class", "bgLayer");
     
     var parkDescription = document.createElement("p");
     parkDescription.textContent = parks.data[i].description;
 
     var parkWeatherInfo = document.createElement("p");
-    parkWeatherInfo.textContent= parks.data[i].weatherInfo ;
+    parkWeatherInfo.textContent= parks.data[i].weatherInfo;
 
     parkCardBody.style.backgroundImage = "url('" + parks.data[i].images[0].url + "')";
     parkCardBody.style.backgroundSize = "cover";
 
-    parkCardBody.appendChild(parkDescription);
-    parkCardBody.appendChild(parkWeatherInfo);
+    parkCardBodyB.appendChild(parkDescription);
+    parkCardBodyB.appendChild(parkWeatherInfo);
+    parkCardBody.appendChild(parkCardBodyB);
     parkCard.appendChild(parkCardBody);
 
     cardContainer.appendChild(parkCard);
