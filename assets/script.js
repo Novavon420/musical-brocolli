@@ -87,7 +87,6 @@ var createParkCards = function(parks){
     longitude = parks.data[i].longitude;
 
     //Look for maps
-    debugger;
     mapQuery(latitude, longitude, i);
   }
 }
@@ -122,7 +121,7 @@ createMapDownloadEL(map){
 } 
 */
 
-$('#actual-search').on("click", parkSearch);
+$('#actual-search').on("submit", parkSearch);
 
 /*
  * Modal
