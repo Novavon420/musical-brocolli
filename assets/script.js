@@ -18,8 +18,45 @@ var mapData = {};
 //     }
 // }
 
+if(localStorage.getItem("stateSearch")){
+  debugger;
+  var stateSearch = localStorage.getItem("stateSearch");
+  console.log(stateSearch);
+
+  var searchedStateCode = website + stateSearch + limit + apiKey;
+  
+  fetch(searchedStateCode, {
+    method: "GET",
+    headers: { accept: "application/json" },
+  })
+    .then(function (response) {
+      
+      return response.json();
+    })
+    .then(function (data) {
+
+      createParkCards(data);
+    });
+} else {
+  var searchedStateCode = website + "WA" + limit + apiKey;
+  
+  fetch(searchedStateCode, {
+    method: "GET",
+    headers: { accept: "application/json" },
+  })
+    .then(function (response) {
+      
+      return response.json();
+    })
+    .then(function (data) {
+
+      createParkCards(data);
+    });
+}
+
 var parkSearch = function () {
   var stateCode = document.getElementById("state-code").value;
+  localStorage.setItem("stateSearch", stateCode);
 
   var searchedStateCode = website + stateCode + limit + apiKey;
   fetch(searchedStateCode, {
@@ -60,7 +97,7 @@ var createParkCards = function(parks){
   for(var i = 0; i < parks.data.length; i++){
     var parkCard = document.createElement("article");
     parkCard.setAttribute("data-cardId", i);
-    
+
     var parkCardHead = document.createElement("header");
     parkCardHead.textContent = parks.data[i].fullName;
     parkCard.appendChild(parkCardHead);
@@ -87,7 +124,6 @@ var createParkCards = function(parks){
     longitude = parks.data[i].longitude;
 
     //Look for maps
-    debugger;
     mapQuery(latitude, longitude, i);
   }
 }
@@ -110,17 +146,9 @@ var addMapDownload =  function(mapData, cardId){
   cardFooter.appendChild(footerA);
 
   cardEl.appendChild(cardFooter);
+  parks[cardId] = cardEl;
 }
 
-/*
-createMapDownloadEL(map){
-  var mapData = map;
-
-  for(var i; i < document.getElementById("parks-card-container").getElementsByTagName("*").length; i++){
-    
-  }
-} 
-*/
 
 $('#actual-search').on("click", parkSearch);
 
