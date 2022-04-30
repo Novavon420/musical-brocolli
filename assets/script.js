@@ -101,7 +101,9 @@ var createParkCards = function(parks){
     parkCard.setAttribute("data-cardId", i);
 
     var parkCardHead = document.createElement("header");
-    parkCardHead.textContent = parks.data[i].fullName;
+    var parkCardHeadTitle = document.createElement("h4");
+    parkCardHeadTitle.textContent = parks.data[i].fullName;
+    parkCardHead.appendChild(parkCardHeadTitle);
     parkCard.appendChild(parkCardHead);
 
     var parkCardBody = document.createElement("body");
