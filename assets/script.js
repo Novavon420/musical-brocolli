@@ -64,18 +64,19 @@ var parkSearch = function () {
     headers: { accept: "application/json" },
   })
     .then(function (response) {
-      if (response.data[i] >= 1) {
+      if (response.ok) {
         response.json().then(function(data) {
           console.log(data);
-          createParkCards(data);
+          if (data.total.start.length >= 1) {
+            createParkCards(data);
+          } else {
+            // Need to create a <p> element
+            var modalError = document.createElement("p");
+            modalError.textContent = "Error: Note a valid two letter identifier.";
+            document.getElementById("modal-error").appendChild(modalError);
+          }
         });
-      } else {
-        // Need to create a <p> element
-        var modalError = document.createElement("p");
-        modalError.textContent = "Error: Note a valid two letter identifier.";
-        document.getElementById("modal-error").appendChild(modalError);
-      }
-      
+      } 
     })
     .catch(function(error) {
       var modalError = document.createElement("p");
