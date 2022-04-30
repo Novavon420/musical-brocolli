@@ -32,18 +32,19 @@
 
                 <!-- Modal -->
                 <dialog id="modal">
-                <article id="modal-error">
-                <a href="#close"
-                    aria-label="Close"
-                    class="close"
-                    data-target="modal"
-                    onClick="toggleModal(event)">
-                </a>
-                <form class="" id="user-form">
-                    <label class="" for="State">Enter the States Abbreviation</label>
-                    <input name="stateCode" id="state-code" type="text" autofocus="true" class="" />
-                    <button type="button" class="btn" id="actual-search" onclick="toggleModal(event)" data-target="modal">Search for National Parks</button>
-                </article>
+                    <article id="modal-article">
+                        <a href="#close"
+                            aria-label="Close"
+                            class="close"
+                            data-target="modal"
+                            onClick="toggleModal(event)">
+                        </a>
+                        <form class="" id="user-form">
+                            <label class="" for="State">Enter the States Abbreviation</label>
+                            <input name="stateCode" id="state-code" type="text" autofocus="true" class="" />
+                            <button type="button" class="btn" id="actual-search" data-target="modal">Search for National Parks</button>
+                        </form>
+                    </article>
                 </dialog>
 
                 <!-- Display parks here-->

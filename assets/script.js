@@ -5,19 +5,8 @@ var latitude = "";
 var longitude = "";
 var mapData = {};
 
-// var formSubmitHandler = function(event) {
-//     event.preventDefault();
-
-//     var enteredPark = parkCode;
-//     console.log(enteredPark);
-    
-//     if (enteredPark) {
-//         parkSearch(enteredPark);
-//     } else {
-//         alert("Please enter a National Park Code.");
-//     }
-// }
-
+//Load previous State search from localstorage and make cards base off of it
+//Or create "WA" cards if no localstorage exists
 if(localStorage.getItem("stateSearch")){
   var stateSearch = localStorage.getItem("stateSearch");
   console.log(stateSearch);
@@ -69,7 +58,7 @@ var parkSearch = function () {
           debugger;
           if (data.total != "0") {
             createParkCards(data);
-            closeModal();
+            toggleModalSearch();
           } else {
             formSubmitHandler();
           }
@@ -79,15 +68,18 @@ var parkSearch = function () {
     .catch(function(error) {
       var modalError = document.createElement("p");
         modalError.textContent = "Error: Can't connect to NPS.";
-        document.getElementById("modal-error").appendChild(modalError);
+        modalError.setAttribute("id", "errorP");
+        document.getElementById("modal-article").appendChild(modalError);
     });
     };
 
 const formSubmitHandler = modal => {
   var modalError = document.createElement("p");
+  modalError.setAttribute("id", "errorP");
   modalError.textContent = "Error: Not a valid two letter identifier.";
-  document.getElementById("modal-error").appendChild(modalError);
+  document.getElementById("modal-article").appendChild(modalError);
 }
+
 //Access Map API
 var mapQuery = function(lat, long, index){
   var queryParamater = calculateMapXY(lat, long);
@@ -195,7 +187,12 @@ const toggleModal = event => {
   event.preventDefault();
   const modal = document.getElementById(event.target.getAttribute('data-target'));
   (typeof(modal) != 'undefined' && modal != null)
-    && isModalOpen(modal) ? formSubmitHandler(modal) : openModal(modal)
+    && isModalOpen(modal) ? closeModal(modal) : openModal(modal)
+}
+
+const toggleModalSearch = function(){
+  const modal = document.getElementById("modal");
+  isModalOpen(modal) ? closeModal(modal) : openModal(modal)
 }
 
 // Is modal open
@@ -225,6 +222,10 @@ const closeModal = modal => {
     document.documentElement.style.removeProperty('--scrollbar-width');
     modal.removeAttribute('open');
   }, animationDuration);
+
+  var art = document.getElementById("modal-article");
+  var errorP = document.getElementById("errorP");
+  art.removeChild(errorP);
 }
 
 // Close with a click outside
