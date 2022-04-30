@@ -70,6 +70,9 @@ var parkSearch = function () {
           if (data.total != "0") {
             createParkCards(data);
             closeModal();
+            var modalError = document.createElement("p");  
+            modalError.textContent = "";
+            document.getElementById("modal-error").appendChild(modalError);
           } else {
             formSubmitHandler();
           }
@@ -88,6 +91,7 @@ const formSubmitHandler = modal => {
   modalError.textContent = "Error: Not a valid two letter identifier.";
   document.getElementById("modal-error").appendChild(modalError);
 }
+
 //Access Map API
 var mapQuery = function(lat, long, index){
   var queryParamater = calculateMapXY(lat, long);
