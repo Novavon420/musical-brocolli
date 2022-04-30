@@ -64,14 +64,25 @@ var parkSearch = function () {
     headers: { accept: "application/json" },
   })
     .then(function (response) {
+      if (response.data[i] >= 1) {
+        response.json().then(function(data) {
+          console.log(data);
+          createParkCards(data);
+        });
+      } else {
+        // Need to create a <p> element
+        var modalError = document.createElement("p");
+        modalError.textContent = "Error: Note a valid two letter identifier.";
+        document.getElementById("modal-error").appendChild(modalError);
+      }
       
-      return response.json();
     })
-    .then(function (data) {
-
-      createParkCards(data);
+    .catch(function(error) {
+      var modalError = document.createElement("p");
+        modalError.textContent = "Error: Can't connect to NPS.";
+        document.getElementById("modal-error").appendChild(modalError);
     });
-};
+    };
 
 //Access Map API
 var mapQuery = function(lat, long, index){
