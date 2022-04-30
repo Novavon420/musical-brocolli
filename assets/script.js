@@ -45,10 +45,19 @@ if(localStorage.getItem("stateSearch")){
 //Reach out to NPS API to try to retrieve Parks data
 //Calls Create Cards function if successfull
 var parkSearch = function() {
+  
+  removeErrorMessage();
   var stateCode = document.getElementById("state-code").value;
   localStorage.setItem("stateSearch", stateCode);
 
-  var searchedStateCode = website + stateCode + limit + apiKey;
+  //Check if State input is not blank
+  if(stateCode != ""){
+    var searchedStateCode = website + stateCode + limit + apiKey;
+  } else {
+    formSubmitErrorHandler(1);
+    return false;
+  }
+
   fetch(searchedStateCode, {
     method: "GET",
     headers: { accept: "application/json" },
@@ -56,15 +65,15 @@ var parkSearch = function() {
   .then(function (response) {
     if (response.ok) {
       response.json().then(function(data) {
-        if (data.total != "0") {
+        if(data.total != "0") {
           createParkCards(data);
           toggleModalSearch();
 
         } else {
-          formSubmitHandlerErrorHandler();
+          formSubmitErrorHandler();
         }
       });
-    } 
+    }
   })
   .catch(function(error) {
     var modalError = document.createElement("p");
@@ -74,14 +83,30 @@ var parkSearch = function() {
   });
 };
 
-const formSubmitHandlerErrorHandler = modal => {
-  
+const formSubmitErrorHandler = errorCode => {
   //check and see if error message is not being displayed already
-  if(!document.getElementById("errorP")){
+  if(errorCode == 1){
+    var modalError = document.createElement("p");
+    modalError.setAttribute("id", "errorP");
+    modalError.textContent = "Error: Please enter a two letter state identifier";
+    document.getElementById("modal-article").appendChild(modalError);
+  }
+  else if(!document.getElementById("errorP")){
     var modalError = document.createElement("p");
     modalError.setAttribute("id", "errorP");
     modalError.textContent = "Error: Not a valid two letter state identifier or state not found";
     document.getElementById("modal-article").appendChild(modalError);
+  }
+}
+
+//Removes error message from submit form
+const removeErrorMessage = function(){
+  var art = document.getElementById("modal-article");
+  var errorP = document.getElementById("errorP");
+  
+  //If error message exists, remove it
+  if(errorP){
+    art.removeChild(errorP);
   }
 }
 
@@ -229,11 +254,7 @@ const closeModal = modal => {
   }, animationDuration);
 
   //If error message exists, delete it on close
-  var art = document.getElementById("modal-article");
-  var errorP = document.getElementById("errorP");
-  if(errorP){
-    art.removeChild(errorP);
-  }
+  removeErrorMessage();
 }
 
 // Close with a click outside
