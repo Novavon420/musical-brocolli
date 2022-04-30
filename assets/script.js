@@ -92,6 +92,8 @@ var mapQuery = function(lat, long, index){
 }
 
 var createParkCards = function(parks){
+  document.getElementById("parks-card-container").innerHTML = "";
+  
   var cardContainer = document.getElementById("parks-card-container");
 
   for(var i = 0; i < parks.data.length; i++){
