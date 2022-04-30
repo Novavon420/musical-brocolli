@@ -5,20 +5,9 @@ var latitude = "";
 var longitude = "";
 var mapData = {};
 
-// var formSubmitHandler = function(event) {
-//     event.preventDefault();
-
-//     var enteredPark = parkCode;
-//     console.log(enteredPark);
-    
-//     if (enteredPark) {
-//         parkSearch(enteredPark);
-//     } else {
-//         alert("Please enter a National Park Code.");
-//     }
-// }
-
-var parkSearch = function () {
+// Searching for the National Parks with NPS API
+var parkSearch = function (event) {
+  event.preventDefault();
   var stateCode = document.getElementById("state-code").value;
 
   var searchedStateCode = website + stateCode + limit + apiKey;
