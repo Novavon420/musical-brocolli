@@ -1,5 +1,5 @@
 # National Mapper
-Github pages link
+Deployed URL: https://jacee94.github.io/national-mapper/
 
 ## About National Mapper
 We wanted an application that made it easy to look up information about various National Parks in specific states or provinces. The plan was simple,
