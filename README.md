@@ -15,4 +15,4 @@ We used a few new to us technologies that included a new CSS framework and two d
 * National Map: https://www.usgs.gov/faqs/there-api-accessing-national-map-data
 
 ## End product
-![Alt Text](./assets/Images/Screenshot.PNG)
+![Alt Text](./assets/images/screenshot.JPG)
