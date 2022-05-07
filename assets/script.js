@@ -5,21 +5,9 @@ var latitude = "";
 var longitude = "";
 var mapData = {};
 
-// var formSubmitHandler = function(event) {
-//     event.preventDefault();
-
-//     var enteredPark = parkCode;
-//     console.log(enteredPark);
-    
-//     if (enteredPark) {
-//         parkSearch(enteredPark);
-//     } else {
-//         alert("Please enter a National Park Code.");
-//     }
-// }
-
+//Load previous State search from localstorage and make cards base off of it
+//Or create "WA" cards if no localstorage exists
 if(localStorage.getItem("stateSearch")){
-  debugger;
   var stateSearch = localStorage.getItem("stateSearch");
   console.log(stateSearch);
 
@@ -54,24 +42,73 @@ if(localStorage.getItem("stateSearch")){
     });
 }
 
-var parkSearch = function () {
+//Reach out to NPS API to try to retrieve Parks data
+//Calls Create Cards function if successfull
+var parkSearch = function() {
+  
+  removeErrorMessage();
   var stateCode = document.getElementById("state-code").value;
   localStorage.setItem("stateSearch", stateCode);
 
-  var searchedStateCode = website + stateCode + limit + apiKey;
+  //Check if State input is not blank
+  if(stateCode != ""){
+    var searchedStateCode = website + stateCode + limit + apiKey;
+  } else {
+    formSubmitErrorHandler(1);
+    return false;
+  }
+
   fetch(searchedStateCode, {
     method: "GET",
     headers: { accept: "application/json" },
   })
-    .then(function (response) {
-      
-      return response.json();
-    })
-    .then(function (data) {
+  .then(function (response) {
+    if (response.ok) {
+      response.json().then(function(data) {
+        if(data.total != "0") {
+          createParkCards(data);
+          toggleModalSearch();
 
-      createParkCards(data);
-    });
+        } else {
+          formSubmitErrorHandler();
+        }
+      });
+    }
+  })
+  .catch(function(error) {
+    var modalError = document.createElement("p");
+      modalError.textContent = "Error: Can't connect to NPS";
+      modalError.setAttribute("id", "errorP");
+      document.getElementById("modal-article").appendChild(modalError);
+  });
 };
+
+const formSubmitErrorHandler = errorCode => {
+  //check and see if error message is not being displayed already
+  if(errorCode == 1){
+    var modalError = document.createElement("p");
+    modalError.setAttribute("id", "errorP");
+    modalError.textContent = "Error: Please enter a two letter state identifier";
+    document.getElementById("modal-article").appendChild(modalError);
+  }
+  else if(!document.getElementById("errorP")){
+    var modalError = document.createElement("p");
+    modalError.setAttribute("id", "errorP");
+    modalError.textContent = "Error: Not a valid two letter state identifier or state not found";
+    document.getElementById("modal-article").appendChild(modalError);
+  }
+}
+
+//Removes error message from submit form
+const removeErrorMessage = function(){
+  var art = document.getElementById("modal-article");
+  var errorP = document.getElementById("errorP");
+  
+  //If error message exists, remove it
+  if(errorP){
+    art.removeChild(errorP);
+  }
+}
 
 //Access Map API
 var mapQuery = function(lat, long, index){
@@ -159,6 +196,7 @@ var addMapDownload =  function(mapData, cardId){
 
 
 $('#actual-search').on("click", parkSearch);
+$("#user-form").on("submit", parkSearch);
 
 /*
  * Modal
@@ -174,13 +212,17 @@ const closingClass = 'modal-is-closing';
 const animationDuration = 400; // ms
 let visibleModal = null;
 
-
 // Toggle modal
 const toggleModal = event => {
   event.preventDefault();
   const modal = document.getElementById(event.target.getAttribute('data-target'));
   (typeof(modal) != 'undefined' && modal != null)
     && isModalOpen(modal) ? closeModal(modal) : openModal(modal)
+}
+
+const toggleModalSearch = function(){
+  const modal = document.getElementById("modal");
+  isModalOpen(modal) ? closeModal(modal) : openModal(modal)
 }
 
 // Is modal open
@@ -210,6 +252,9 @@ const closeModal = modal => {
     document.documentElement.style.removeProperty('--scrollbar-width');
     modal.removeAttribute('open');
   }, animationDuration);
+
+  //If error message exists, delete it on close
+  removeErrorMessage();
 }
 
 // Close with a click outside
